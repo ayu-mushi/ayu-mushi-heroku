@@ -20,6 +20,8 @@ someFunc = do
   env <- getEnvironment
   let port = maybe 8001 read $ lookup "PORT" env
   scotty port $ do
+    get "/" $ do
+      html "<head><meta name=\"google-site-verification\" content=\"--F9spfKFhrPFAQj3YneWTcA-5T6DmJ4UzVSa4INabU\" /><head>"
     get "/scrapbox/sitemap.xml" $ do
       req <- parseRequest "GET https://scrapbox.io/api/feed/ayu-mushi"
       res <- httpLBS req
