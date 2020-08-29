@@ -6,6 +6,6 @@ COPY stack.yaml package.yaml /work/
 RUN stack build --only-dependencies
 
 COPY . /work/
-RUN stack build && stack install
+RUN stack build -j1 && stack install
 
 CMD ayu-mushi-scrapbox-exe -p $PORT
