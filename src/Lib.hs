@@ -25,6 +25,7 @@ someFunc = do
     get "/scrapbox/sitemap.xml" $ do
       req <- parseRequest "GET https://scrapbox.io/api/feed/ayu-mushi"
       res <- httpLBS req
+      status status301
       header "application/xml; charset=utf-8"
       raw $ replace ("scrapbox.io/ayu-mushi"::S.ByteString) ("ayu-mushi.herokuapp.com/scrapbox"::L.ByteString) $ getResponseBody res
     get "/scrapbox/:name" $ do
