@@ -13,6 +13,7 @@ import Network.HTTP.Simple
 import Data.ByteString.Lazy.Search
 import qualified Data.ByteString.Lazy  as L(ByteString)
 import qualified Data.ByteString as S(ByteString)
+import Network.HTTP.Types.Status
 
 
 someFunc :: IO ()
@@ -25,10 +26,10 @@ someFunc = do
     get "/scrapbox/sitemap.xml" $ do
       req <- parseRequest "GET https://scrapbox.io/api/feed/ayu-mushi"
       res <- httpLBS req
-      status status301
       header "application/xml; charset=utf-8"
       raw $ replace ("scrapbox.io/ayu-mushi"::S.ByteString) ("ayu-mushi.herokuapp.com/scrapbox"::L.ByteString) $ getResponseBody res
     get "/scrapbox/:name" $ do
       name <- param "name"
-      redirect $ Text.pack $ "http://scrapbox.io/ayu-mushi/" ++ name
+      status status301
+      addHeader "Location" (Text.pack $ "http://scrapbox.io/ayu-mushi/" ++ name)
       return ()
